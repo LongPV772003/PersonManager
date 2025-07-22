@@ -1,44 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Box, Typography, Paper, Table, TableBody,
-  TableCell, TableContainer, TableHead, TableRow,
-  CircularProgress, Stack, IconButton, Tooltip,
-  Dialog, DialogTitle, DialogContent, TextField, Button
+  Box, Typography, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  CircularProgress, Stack, IconButton, Tooltip, Dialog, DialogTitle, DialogContent, TextField, Button
 } from '@mui/material';
 import { CancelOutlined, Visibility, Archive } from '@mui/icons-material';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchEndedEmployees, archiveEmployeeRecord, setSelectedEmployee } from '../store/employeeSlice';
 import EmployeeDetailDialog from '../component/Dialog/EmployeeDetailDialog';
 import { toast } from 'react-toastify';
 
 const EndedEmployees = () => {
-  const [employees, setEmployees] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { list: employees, loading, selectedEmployee } = useSelector(state => state.employee);
+
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [archiveDialogOpen, setArchiveDialogOpen] = useState(false);
   const [archiveDate, setArchiveDate] = useState('');
   const [archiveNumber, setArchiveNumber] = useState('');
-  const user = JSON.parse(localStorage.getItem('user'));
-
-  const fetchEndedEmployees = async () => {
-    try {
-      const res = await axios.get('http://localhost:3001/employees');
-      const ended = res.data.filter(emp => emp.status === 'Kết thúc' || emp.status === 'Đã nộp lưu');
-      const filtered = user.role === 'manager'
-        ? ended.filter(emp => emp.createdBy === user.id)
-        : ended;
-      setEmployees(filtered);
-    } catch (err) {
-      toast.error("Lỗi khi tải danh sách hồ sơ kết thúc");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [archiveErrors, setArchiveErrors] = useState({ archiveDate: false, archiveNumber: false });
 
   useEffect(() => {
-    fetchEndedEmployees();
-  }, []);
+    dispatch(fetchEndedEmployees());
+  }, [dispatch]);
 
   const formatDate = (dateStr) => {
     if (!dateStr) return '—';
@@ -47,26 +30,22 @@ const EndedEmployees = () => {
   };
 
   const handleView = (employee) => {
-    setSelectedEmployee(employee);
+    dispatch(setSelectedEmployee(employee));
     setDialogOpen(true);
   };
 
   const handleCloseDialog = () => {
-    setSelectedEmployee(null);
+    dispatch(setSelectedEmployee(null));
     setDialogOpen(false);
   };
 
   const handleOpenArchiveDialog = (employee) => {
-    setSelectedEmployee(employee);
+    dispatch(setSelectedEmployee(employee));
     setArchiveDate('');
     setArchiveNumber('');
     setArchiveDialogOpen(true);
   };
 
-  const [archiveErrors, setArchiveErrors] = useState({
-    archiveDate: false,
-    archiveNumber: false,
-  });
   const handleArchiveSubmit = async () => {
     const errors = {
       archiveDate: !archiveDate,
@@ -74,31 +53,23 @@ const EndedEmployees = () => {
     };
     setArchiveErrors(errors);
 
-    const hasError = Object.values(errors).some(e => e);
-    if (hasError) {
+    if (Object.values(errors).some(Boolean)) {
       toast.error("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
 
     try {
-      const payload = {
-        ...selectedEmployee,
-        decisionDate: archiveDate,
-        archiveNumber,
-        status: 'Đã nộp lưu'
-      };
-
-      await axios.put(`http://localhost:3001/employees/${selectedEmployee.id}`, payload);
-      toast.success('Đã cập nhật trạng thái Nộp lưu');
+      await dispatch(archiveEmployeeRecord({
+        employee: selectedEmployee,
+        archiveDate,
+        archiveNumber
+      })).unwrap();
+      toast.success("Đã nộp lưu hồ sơ");
       setArchiveDialogOpen(false);
-      setSelectedEmployee(null);
-      fetchEndedEmployees();
     } catch (err) {
-      toast.error('Lỗi khi nộp lưu hồ sơ');
-      console.error(err);
+      toast.error("Lỗi khi nộp lưu");
     }
   };
-
 
   return (
     <Box p={4}>
@@ -140,7 +111,7 @@ const EndedEmployees = () => {
                     </TableCell>
                     <TableCell align="center">{formatDate(emp.decisionDate)}</TableCell>
                     <TableCell align="center">{emp.archiveNumber || '—'}</TableCell>
-                    <TableCell align="center" sx={{display: 'flex', alignContent: 'center', justifyContent: 'center'}}>
+                    <TableCell align="center" sx={{ display: 'flex', justifyContent: 'center' }}>
                       <Tooltip title="Xem chi tiết">
                         <IconButton color="primary" onClick={() => handleView(emp)}>
                           <Visibility />
@@ -183,7 +154,6 @@ const EndedEmployees = () => {
             error={archiveErrors.archiveDate}
             helperText={archiveErrors.archiveDate ? "Vui lòng chọn ngày quyết định" : ""}
           />
-
           <TextField
             label="Số lưu"
             fullWidth

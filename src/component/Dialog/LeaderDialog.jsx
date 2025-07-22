@@ -3,11 +3,10 @@ import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Button, TextField, MenuItem, Grid
 } from '@mui/material';
-import axios from 'axios';
-import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLeaders } from '../../store/leaderSlice';
 
 const SubmitToLeaderDialog = ({ open, onClose, onSubmit }) => {
-  const [leaders, setLeaders] = useState([]);
   const [form, setForm] = useState({
     date: new Date().toISOString().split('T')[0],
     leader: '',
@@ -17,19 +16,13 @@ const SubmitToLeaderDialog = ({ open, onClose, onSubmit }) => {
   });
   const [errors, setErrors] = useState({});
 
+  const dispatch = useDispatch();
+  const leaders = useSelector(state => state.leader.list);
   useEffect(() => {
-    const fetchLeaders = async () => {
-      try {
-        const res = await axios.get('http://localhost:3001/users');
-        const leadersList = res.data.filter(user => user.role === 'leader');
-        setLeaders(leadersList);
-      } catch (err) {
-        toast.error('Lỗi khi tải danh sách lãnh đạo');
-      }
-    };
-
-    if (open) fetchLeaders();
-  }, [open]);
+    if (open) {
+      dispatch(fetchLeaders());
+    }
+  }, [open, dispatch]);
 
   const handleChange = (field, value) => {
     if (field === 'leader') {

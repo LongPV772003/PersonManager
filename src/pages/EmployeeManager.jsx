@@ -10,118 +10,81 @@ import {
   Button
 } from '@mui/material';
 import { TaskAlt as TaskAltIcon, Visibility, Edit, CancelOutlined, Feedback } from '@mui/icons-material';
-import axios from 'axios';
 import EmployeeDetailDialog from '../component/Dialog/EmployeeDetailDialog';
 import { toast } from 'react-toastify';
 import UpdateProcessDialog from '../component/Dialog/UpdateProcessDialog';
+import { useSelector, useDispatch } from 'react-redux';
+import { addLeaderComment, closeEmployeeRecord, fetchApprovedEmployees  } from '../store/employeeSlice';
 
 const EmployeeManager = () => {
-    const [employees, setEmployees] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const user = JSON.parse(localStorage.getItem('user'))
-    const [dialogOpen, setDialogOpen] = useState(false);
-    const [selectedEmployee, setSelectedEmployee] = useState(null);
-    const [onview, setOnview] = useState(false);
-    const [commentDialogOpen, setCommentDialogOpen] = useState(false);
-    const [currentEmployeeId, setCurrentEmployeeId] = useState(null);
-    const [leaderComment, setLeaderComment] = useState("");
+  const user = JSON.parse(localStorage.getItem('user'))
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [onview, setOnview] = useState(false);
+  const [commentDialogOpen, setCommentDialogOpen] = useState(false);
+  const [currentEmployeeId, setCurrentEmployeeId] = useState(null);
+  const [leaderComment, setLeaderComment] = useState("");
     
+  const dispatch = useDispatch();
+  const { list: employees, loading } = useSelector(state => state.employee);
+  const handleLeaderComment = (employeeId) => {
+    setCurrentEmployeeId(employeeId);
+    setLeaderComment('');
+    setCommentDialogOpen(true);
+  };
+  const submitLeaderComment = () => {
+    if (!leaderComment) return;
+    dispatch(addLeaderComment({ employeeId: currentEmployeeId, comment: leaderComment }))
+      .then(() => {
+        toast.success('Đã thêm ý kiến lãnh đạo');
+        dispatch(fetchApprovedEmployees());
+        setCommentDialogOpen(false);
+      })
+      .catch(() => toast.error('Lỗi khi thêm ý kiến'));
+  };
+  const [endDialogOpen, setEndDialogOpen] = useState(false);
+  const [endReason, setEndReason] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const handleCloseRecord = (employee) => {
+    setSelectedEmployee(employee);
+    setEndDate('');
+    setEndReason('');
+    setEndDialogOpen(true);
+  };
+   const submitCloseRecord = () => {
+    if (!endDate || !endReason) return toast.error('Vui lòng nhập đầy đủ');
+    dispatch(closeEmployeeRecord({
+      employee: selectedEmployee,
+      endDate,
+      endReason
+    }))
+      .then(() => {
+        toast.success('Đã kết thúc hồ sơ');
+        setEndDialogOpen(false);
+        window.location.href = '/endedEmployees';
+      })
+      .catch(() => toast.error('Lỗi khi kết thúc hồ sơ'));
+  };
 
-    const handleLeaderComment = (employeeId) => {
-        setCurrentEmployeeId(employeeId);
-        setLeaderComment('');
-        setCommentDialogOpen(true);
-    };
-    const submitLeaderComment = async () => {
-        try {
-          const payload = {
-            leaderComment: {
-              leaderId: user.id,
-              name: user.fullName,
-              content: leaderComment,
-              date: new Date().toISOString()
-            }
-          };
-          await axios.patch(`http://localhost:3001/employees/${currentEmployeeId}`, payload);
-          toast.success('Đã thêm ý kiến lãnh đạo');
-          setCommentDialogOpen(false);
-          fetchApprovedEmployees();
-        } catch (err) {
-            toast.error('Lỗi khi thêm ý kiến');
-            console.error(err);
-        }
-    };
-    const [endDialogOpen, setEndDialogOpen] = useState(false);
-    const [endReason, setEndReason] = useState('');
-    const [endDate, setEndDate] = useState('');
-    const handleCloseRecord = (employee) => {
-        setSelectedEmployee(employee);
-        setEndDate('');
-        setEndReason('');
-        setEndDialogOpen(true);
-    };
-    const submitCloseRecord = async () => {
-        if (!endDate || !endReason) {
-            toast.error("Vui lòng nhập đầy đủ thông tin");
-            return;
-        }
+  useEffect(() => {
+    dispatch(fetchApprovedEmployees());
+  }, [dispatch]);
 
-        try {
-            const payload = {
-            ...selectedEmployee,
-            status: 'Kết thúc',
-            endDate,
-            endReason
-            };
-            await axios.put(`http://localhost:3001/employees/${selectedEmployee.id}`, payload);
-            toast.success("Đã kết thúc hồ sơ");
-            setEndDialogOpen(false);
-            fetchApprovedEmployees(); 
-            window.location.href = '/endedEmployees';
-        } catch (err) {
-            toast.error("Lỗi khi cập nhật hồ sơ");
-            console.error(err);
-        }
-    };
+  const formatDate = (dateStr) => {
+    if (!dateStr) return '—';
+    const date = new Date(dateStr);
+    return isNaN(date) ? '—' : date.toLocaleDateString('vi-VN');
+  };
 
-    const fetchApprovedEmployees = async () => {
-        try {
-        const res = await axios.get('http://localhost:3001/employees');
-        const approved = res.data.filter(emp => emp.status === 'Đã duyệt');
-        if(user.role === "manager"){
-            const data = approved.filter(a => a.createdBy === user.id)
-            setEmployees(data);
-        }
-        else{
-            setEmployees(approved);
-        }
-        } catch (error) {
-            console.error('Lỗi khi lấy danh sách nhân viên đã duyệt:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchApprovedEmployees();
-    }, []);
-
-    const formatDate = (dateStr) => {
-        if (!dateStr) return '—';
-        const date = new Date(dateStr);
-        return isNaN(date) ? '—' : date.toLocaleDateString('vi-VN');
-    };
-
-    const handleView = (employee) => {
-        setSelectedEmployee(employee)
-        setDialogOpen(true)
-        setOnview(true)
-    };
-    const handleCloseDialog = (employee) => {
-        setSelectedEmployee(null)
-        setDialogOpen(false)
-    }
-
+  const handleView = (employee) => {
+    setSelectedEmployee(employee)
+    setDialogOpen(true)
+    setOnview(true)
+  };
+  const handleCloseDialog = (employee) => {
+    setSelectedEmployee(null)
+    setDialogOpen(false)
+  }
   const [progressDialogOpen, setProgressDialogOpen] = useState(false);
   const [selectedProgressEmployee, setSelectedProgressEmployee] = useState(null);
 
@@ -264,7 +227,7 @@ const EmployeeManager = () => {
       open={progressDialogOpen}
       data={selectedProgressEmployee}
       onClose={() => setProgressDialogOpen(false)}
-      reLoad = {fetchApprovedEmployees()}
+      reLoad={() => dispatch(fetchApprovedEmployees())}
     />
     </Box>
   );

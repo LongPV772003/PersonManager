@@ -4,34 +4,20 @@ import {
   TableContainer, TableHead, TableRow, Button, Dialog,
   Chip
 } from '@mui/material';
-import axios from 'axios';
 import EmployeeDetailDialog from '../component/Dialog/EmployeeDetailDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPendingEmployees } from '../store/employeeSlice';
 
 const PendingApprovalPage = () => {
-  const [employees, setEmployees] = useState([]);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const user = JSON.parse(localStorage.getItem('user'));
 
-  const fetchData = async () => {
-    try {
-      const res = await axios.get('http://localhost:3001/employees');
-      const allPending = res.data.filter(emp => emp.status === 'Chờ xử lý');
+  const dispatch = useDispatch();
+  const { list: employees, loading } = useSelector(state => state.employee);
 
-      if (user.role === 'manager') {
-        const filteredManager = allPending.filter(emp => emp.createdBy === user.id)
-        setEmployees(filteredManager);
-      } else if (user.role === 'leader') {
-        const filteredLeader = allPending.filter(emp => emp.leaderSubmission?.leaderId === user.id);
-        setEmployees(filteredLeader);
-      } else {
-        setEmployees([]);
-      }
-
-    } catch (error) {
-      console.error('Lỗi khi lấy dữ liệu:', error);
-    }
-  };
+  useEffect(() => {
+    dispatch(fetchPendingEmployees());
+  }, [dispatch]);
 
     const getStatusColor = (status) => {
     switch (status) {
@@ -51,9 +37,6 @@ const PendingApprovalPage = () => {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
 
   const handleViewDetails = (employee) => {
     setSelectedEmployee(employee);

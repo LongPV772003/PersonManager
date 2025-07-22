@@ -1,22 +1,30 @@
-import React, { useEffect, useState } from 'react';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead,
-  TableRow, Paper, IconButton, Tooltip, Stack, Chip
+  TableRow, Paper, IconButton, Tooltip, Stack, Chip,
+  Box
 } from '@mui/material';
 import { Edit, Delete, Visibility } from '@mui/icons-material';
-import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { deleteEmployee } from '../store/employeeSlice';
 
 const EmployeeTable = ({ onEdit, onView, employees, onSuccess }) => {
   const user = JSON.parse(localStorage.getItem('user'))
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Bạn có chắc chắn muốn xóa nhân viên này?')) {
-      await axios.delete(`http://localhost:3001/employees/${id}`);
+  const dispatch = useDispatch();
+
+const handleDelete = async (id) => {
+  if (window.confirm('Bạn có chắc chắn muốn xóa nhân viên này?')) {
+    try {
+      await dispatch(deleteEmployee(id)).unwrap();
       toast.success("Xoá thành công!");
-      onSuccess()
+      onSuccess();
+    } catch (err) {
+      toast.error("Xoá thất bại!");
+      console.error(err);
     }
-  };
+  }
+};
   const getStatusColor = (status) => {
     switch (status) {
       case 'Lưu mới':
@@ -61,12 +69,12 @@ const EmployeeTable = ({ onEdit, onView, employees, onSuccess }) => {
     <Table>
       <TableHead sx={{ bgcolor: '#66cc66' }}>
         <TableRow>
-          <TableCell sx={{ minWidth: 90, whiteSpace: 'nowrap' }}><strong>Tên</strong></TableCell>
-          <TableCell sx={{ minWidth: 40, whiteSpace: 'nowrap' }}><strong>Giới tính</strong></TableCell>
-          <TableCell sx={{ minWidth: 80, whiteSpace: 'nowrap' }}><strong>Team</strong></TableCell>
-          <TableCell sx={{ minWidth: 100, whiteSpace: 'nowrap' }}><strong>Email</strong></TableCell>
-          <TableCell sx={{ minWidth: 50, whiteSpace: 'nowrap' }}><strong>Trạng thái</strong></TableCell>
-          <TableCell sx={{ minWidth: 50, whiteSpace: 'nowrap' }} align="right"><strong>Thao tác</strong></TableCell>
+          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Tên</strong></TableCell>
+          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Giới tính</strong></TableCell>
+          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Team</strong></TableCell>
+          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Email</strong></TableCell>
+          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Trạng thái</strong></TableCell>
+          <TableCell sx={{ whiteSpace: 'nowrap' }} align="right"><strong>Thao tác</strong></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -76,14 +84,29 @@ const EmployeeTable = ({ onEdit, onView, employees, onSuccess }) => {
             <TableCell sx={{ whiteSpace: 'nowrap' }}>{emp.gender}</TableCell>
             <TableCell sx={{ whiteSpace: 'nowrap' }}>{emp.team}</TableCell>
             <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 200 }}>{emp.email}</TableCell>
-            <TableCell sx={{ whiteSpace: 'nowrap' }}>
-              <Chip
-                label={emp.status}
-                color={getStatusColor(emp.status)}
-                sx={getCustomStyle(emp.status)}
-                variant="outlined"
-                size="small"
-              />
+            <TableCell sx={{ whiteSpace: 'normal' }}>
+              <Box>
+                <Chip
+                  label={emp.status}
+                  color={getStatusColor(emp.status)}
+                  sx={{
+                    ...getCustomStyle(emp.status),
+                    maxWidth: 200
+                  }}
+                  variant="outlined"
+                  size="small"
+                />
+                {(emp.status === 'Từ chối' && emp.rejectReason) && (
+                  <Box mt={0.5} sx={{ fontSize: '0.75rem', color: 'red' }}>
+                    {emp.rejectReason}
+                  </Box>
+                )}
+                {(emp.status === 'Yêu cầu bổ sung' && emp.requirementContent) && (
+                  <Box mt={0.5} sx={{ fontSize: '0.75rem', color: '#ed6c02' }}>
+                    {emp.requirementContent}
+                  </Box>
+                )}
+              </Box>
             </TableCell>
             <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
               <Stack direction="row" spacing={1} justifyContent="flex-end">

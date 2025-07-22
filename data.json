@@ -143,7 +143,15 @@
       "endDate": "2025-07-10",
       "endReason": "Quá yêu",
       "decisionDate": "2025-07-14",
-      "archiveNumber": "HS001"
+      "archiveNumber": "HS001",
+      "leaderComments": [
+        {
+          "leaderId": "u001",
+          "name": "Phạm Văn Long",
+          "content": "hhhhh",
+          "date": "2025-07-22T09:35:22.981Z"
+        }
+      ]
     },
     {
       "id": "9dae",
@@ -176,7 +184,15 @@
         "content": "ggggg"
       },
       "rejectReason": "chưa đủ thông tin",
-      "rejectDate": "2025-07-09"
+      "rejectDate": "2025-07-09",
+      "leaderComments": [
+        {
+          "leaderId": "u001",
+          "name": "Phạm Văn Long",
+          "content": "hhhhhh",
+          "date": "2025-07-22T09:35:42.703Z"
+        }
+      ]
     },
     {
       "id": "ecfa",
@@ -283,10 +299,10 @@
         }
       },
       "leaderComment": {
-        "leaderId": "u002",
-        "name": "Phạm Nhất Long",
-        "content": "đầy đủ",
-        "date": "2025-07-17T01:20:29.433Z"
+        "leaderId": "u001",
+        "name": "Phạm Văn Long",
+        "content": "HIHIHaaa",
+        "date": "2025-07-22T10:05:17.789Z"
       }
     },
     {
@@ -388,7 +404,7 @@
           "times": "2",
           "reason": "Thâm niên 6 tháng",
           "level": "2",
-          "note": "14500000"
+          "note": "Tăng 2"
         },
         {
           "submittedFiles": [],
@@ -396,7 +412,15 @@
           "times": "1",
           "reason": "Mới vào làm",
           "level": "1",
-          "note": "13000000"
+          "note": "Tăng 1"
+        },
+        {
+          "submittedFiles": [],
+          "date": "2025-07-01",
+          "times": "3",
+          "reason": "Tăng lần 3",
+          "level": "3",
+          "note": "Tăng 3"
         }
       ],
       "promotionProgress": [
@@ -404,10 +428,10 @@
           "submittedFiles": [],
           "date": "2025-07-09",
           "times": "1",
-          "reason": "hhh",
-          "oldPosition": "hh",
-          "newPosition": "hhh",
-          "note": "hhh"
+          "reason": "Làm tốt ",
+          "oldPosition": "Phó phòng hành chính",
+          "newPosition": "Trưởng phòng hành chính",
+          "note": "Thăng chức lần 1"
         }
       ],
       "proposalProgress": [
@@ -419,7 +443,13 @@
           "proposalType": "hhhh",
           "description": "hhhh"
         }
-      ]
+      ],
+      "leaderComment": {
+        "leaderId": "u001",
+        "name": "Phạm Văn Long",
+        "content": "HIUHU",
+        "date": "2025-07-22T09:56:48.066Z"
+      }
     },
     {
       "id": "635f",
@@ -577,7 +607,7 @@
       "createdBy": "u004",
       "degrees": [],
       "families": [],
-      "status": "Chờ xử lý",
+      "status": "Yêu cầu bổ sung",
       "profileRecords": {
         "name": "Nguyễn Linh Linh",
         "gender": "Nữ",
@@ -632,7 +662,8 @@
         "leaderId": "u001",
         "position": "Giám đốc",
         "content": "hhhhh"
-      }
+      },
+      "requirementContent": "Bổ sung thêm SYLL"
     },
     {
       "id": "9412",
@@ -759,7 +790,7 @@
           "address": "Xã Đồng Bằng, Tỉnh Hưng Yên"
         }
       ],
-      "status": "Đã duyệt",
+      "status": "Kết thúc",
       "createdBy": "u004",
       "profileRecords": {
         "families": [
@@ -834,7 +865,9 @@
       },
       "requirementContent": "bổ sung ...",
       "appointmentDate": "2025-07-24",
-      "isQualified": true
+      "isQualified": true,
+      "endDate": "2025-07-23",
+      "endReason": "Quá dễ thương"
     },
     {
       "id": "43ff",

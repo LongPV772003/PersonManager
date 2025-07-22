@@ -17,9 +17,10 @@ import {
   Paper
 } from '@mui/material';
 import { Delete, Edit, Visibility } from '@mui/icons-material';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import ViewProgressTemplateDialog from './ViewProgressTemplateDialog';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateEmployeeProgress } from '../../store/employeeSlice';
 
 const UpdateProcessDialog = ({ open, data, onClose, reLoad }) => {
   const [progressType, setProgressType] = useState("");
@@ -28,6 +29,7 @@ const UpdateProcessDialog = ({ open, data, onClose, reLoad }) => {
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [dataEmployee, setDataEmployee] = useState(null)
+  const dispatch = useDispatch();
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -39,17 +41,29 @@ const UpdateProcessDialog = ({ open, data, onClose, reLoad }) => {
   };
 
   const handleDelete = async (index) => {
-    try {
-      const key =
-        progressType === 'register' ? 'registerProfile' :
-        progressType === 'salary' ? 'salaryProgress' :
-        progressType === 'promotion' ? 'promotionProgress' :
-        progressType === 'proposal' ? 'proposalProgress' :
-        'unknown';
+    const keyMap = {
+      register: 'registerProfile',
+      salary: 'salaryProgress',
+      promotion: 'promotionProgress',
+      proposal: 'proposalProgress'
+    };
+    const key = keyMap[progressType] || 'unknown';
 
-      const updatedList = [...(data[key] || [])];
-      updatedList.splice(index, 1);
-      await axios.patch(`http://localhost:3001/employees/${data.id}`, { [key]: updatedList });
+    if (key === 'unknown') {
+      toast.error('Loại diễn biến không hợp lệ');
+      return;
+    }
+
+    const updatedList = [...(data[key] || [])];
+    updatedList.splice(index, 1);
+
+    try {
+      await dispatch(updateEmployeeProgress({
+        employeeId: data.id,
+        progressType,
+        dataList: updatedList
+      })).unwrap();
+
       toast.success('Xoá thành công');
       onClose();
     } catch (err) {
@@ -58,40 +72,52 @@ const UpdateProcessDialog = ({ open, data, onClose, reLoad }) => {
   };
 
   const handleSave = async () => {
+    const keyMap = {
+      register: 'registerProfile',
+      salary: 'salaryProgress',
+      promotion: 'promotionProgress',
+      proposal: 'proposalProgress'
+    };
+    const key = keyMap[progressType] || 'unknown';
+
+    if (key === 'unknown') {
+      toast.error('Loại diễn biến không hợp lệ');
+      return;
+    }
+
+    const updatedList = [...(data[key] || [])];
+    if (editIndex !== null) {
+      updatedList[editIndex] = formData;
+    } else {
+      updatedList.push(formData);
+    }
+
     try {
-      const key =
-        progressType === 'register' ? 'registerProfile' :
-        progressType === 'salary' ? 'salaryProgress' :
-        progressType === 'promotion' ? 'promotionProgress' :
-        progressType === 'proposal' ? 'proposalProgress' :
-        'unknown';
+      await dispatch(updateEmployeeProgress({
+        employeeId: data.id,
+        progressType,
+        dataList: updatedList
+      })).unwrap();
 
-      let updatedList = [...(data[key] || [])];
-      if (editIndex !== null) {
-        updatedList[editIndex] = formData;
-      } else {
-        updatedList.push(formData);
-      }
-
-      await axios.patch(`http://localhost:3001/employees/${data.id}`, { [key]: updatedList });
-
-    toast.success(
-    editIndex !== null
-        ? 'Chỉnh sửa thành công'
-        : progressType === 'register' ? 'Thêm đăng ký hồ sơ thành công' :
-        progressType === 'salary' ? 'Thêm tăng lương thành công' :
-        progressType === 'promotion' ? 'Thêm thăng chức thành công' :
-        progressType === 'proposal' ? 'Thêm đề xuất thành công' :
-        'Thêm thành công'
-    );
+      toast.success(
+        editIndex !== null
+          ? 'Chỉnh sửa thành công'
+          : progressType === 'register' ? 'Thêm đăng ký hồ sơ thành công' :
+            progressType === 'salary' ? 'Thêm tăng lương thành công' :
+            progressType === 'promotion' ? 'Thêm thăng chức thành công' :
+            progressType === 'proposal' ? 'Thêm đề xuất thành công' :
+            'Thêm thành công'
+      );
 
       setEditIndex(null);
       setFormData({ submittedFiles: [] });
       onClose();
-      reLoad()
+      reLoad();
     } catch (err) {
+      toast.error('Lỗi khi lưu diễn biến');
     }
   };
+
 
   const handleViewTemplate = (data, row) => {
     setDataEmployee(data)

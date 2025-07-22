@@ -1,18 +1,8 @@
 import React from 'react';
-import { Box, Typography, Paper, Grid, Divider } from '@mui/material';
-import { FaUser, FaClipboardCheck, FaClock } from 'react-icons/fa';
+import { Box, Typography, Divider } from '@mui/material';
 
 const Home = () => {
   const user = JSON.parse(localStorage.getItem('user')) || {};
-  const employees = JSON.parse(localStorage.getItem('employees')) || [];
-
-  const visibleEmployees = user.role === 'manager'
-    ? employees.filter(e => e.createdBy === user.id)
-    : employees;
-
-  const totalEmployees = visibleEmployees.length;
-  const approvedEmployees = visibleEmployees.filter(e => e.status === 'Đã duyệt').length;
-  const pendingEmployees = visibleEmployees.filter(e => e.status === 'Chờ xử lý').length;
 
   return (
     <Box>

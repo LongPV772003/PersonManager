@@ -4,7 +4,6 @@ import EmployeeInfoTab from './tabs/EmployeeInfoTab';
 import DegreeTab from './tabs/DegreeTab';
 import FamilyTab from './tabs/FamilyTab';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { createEmployee, updateEmployee } from '../store/employeeSlice';
 

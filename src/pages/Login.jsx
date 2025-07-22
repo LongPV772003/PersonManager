@@ -5,12 +5,14 @@ import {
 } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/leaderSlice';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Check nếu đã login thì chuyển hướng luôn
   useEffect(() => {
@@ -25,21 +27,11 @@ const Login = () => {
     }
 
     try {
-      const res = await axios.get('http://localhost:3001/users');
-      const foundUser = res.data.find(
-        (u) => u.username === username && u.password === password
-      );
-
-      if (foundUser) {
-        localStorage.setItem('user', JSON.stringify(foundUser));
-        toast.success(`Xin chào ${foundUser.fullName}`);
-        navigate('/');
-      } else {
-        toast.error('Sai tên đăng nhập hoặc mật khẩu');
-      }
-    } catch (error) {
-      toast.error('Lỗi kết nối đến server');
-      console.error(error);
+      const user = await dispatch(login({ username, password })).unwrap();
+      toast.success(`Xin chào ${user.fullName}`);
+      navigate('/');
+    } catch (errMsg) {
+      toast.error(errMsg);
     }
   };
 

@@ -8,7 +8,6 @@ import ApplicationForm from '../tabs/ApplicationForm';
 import { AssignmentInd, Description } from '@mui/icons-material';
 import SubmitToLeaderDialog from './LeaderDialog';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setRegisterData } from '../../store/employeeSlice';
