@@ -1,75 +1,35 @@
 import './ApplicationForm.scss';
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
-import { toast } from 'react-toastify';
-
-const rules = {
-  company: { required: true },
-  fullName: { required: true },
-  dob: { required: true },
-  address: { required: true },
-  phone: { required: true, pattern: /^\d{9,11}$/, message: 'Số điện thoại không hợp lệ' },
-  position: { required: true },
-  graduationType: { required: true },
-  graduationSchool: { required: true },
-  internCompany: { required: true },
-  skills: { required: true },
-  location: { required: true },
-  signature: { required: true }
-};
+import React, { useImperativeHandle, forwardRef, useState, useRef } from 'react';
 
 const ApplicationForm = forwardRef(({ data, onChange, readOnly = false }, ref) => {
-  const [errorFields, setErrorFields] = useState([]);
   const currentDate = new Date();
+  const applicationRef = useRef();
+  const [errorFields, setErrorFields] = useState([]);
+
+  const requiredFields = [
+    'company', 'fullName', 'dob', 'address', 'phone',
+    'position', 'graduationType', 'graduationSchool',
+    'internCompany', 'skills', 'signature', 'location'
+  ];
 
   const handleChange = (field, value) => {
     onChange({ ...data, [field]: value });
-    setErrorFields((prev) => prev.filter((f) => f !== field));
+
+    if (errorFields.includes(field) && value?.toString().trim() !== '') {
+      setErrorFields(prev => prev.filter(f => f !== field));
+    }
   };
 
-  const validateAll = () => {
-    const invalidFields = [];
-
-    for (const key in rules) {
-      const value = data[key]?.trim?.() || '';
-      const rule = rules[key];
-
-      if (rule.required && !value) {
-        invalidFields.push(key);
-        continue;
-      }
-
-      if (rule.pattern && !rule.pattern.test(value)) {
-        invalidFields.push(key);
-        continue;
-      }
-    }
-
-    setErrorFields(invalidFields);
-
-    if (invalidFields.length > 0) {
-      toast.error('Vui lòng điền đầy đủ và chính xác thông tin trong form');
-      return false;
-    }
-
-    return true;
+  const validate = () => {
+    const missing = requiredFields.filter(field => !data[field] || data[field].toString().trim() === '');
+    setErrorFields(missing);
+    return missing.length === 0;
   };
 
-  useImperativeHandle(ref, () => ({
-    validate: validateAll
-  }));
-
-  const renderInput = (field, className = '', type = 'text') => (
-    <input
-      type={type}
-      className={`${className} ${errorFields.includes(field) ? 'input-error' : ''}`}
-      value={data[field] || ''}
-      onChange={(e) => handleChange(field, e.target.value)}
-      disabled={readOnly}
-    />
-  );
+  useImperativeHandle(ref, () => ({ validate }));
 
   return (
-    <div className="application-print">
+    <div className="application-print" ref={applicationRef}>
       <div className="title-block center">
         <div className="header-line">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
         <div className="header-line"><b>Độc lập - Tự do - Hạnh phúc</b></div>
@@ -80,69 +40,139 @@ const ApplicationForm = forwardRef(({ data, onChange, readOnly = false }, ref) =
       <div className="application-body">
         <div className="text-body input-line">
           <span>Kính gửi: Ban lãnh đạo cùng phòng nhân sự Công ty</span>
-          {renderInput('company')}
+          <input
+            type="text"
+            value={data.company || ''}
+            onChange={e => handleChange('company', e.target.value)}
+            className={errorFields.includes('company') ? 'error' : ''}
+            disabled={readOnly}
+          />
         </div>
 
         <div className="text-body input-line">
           <span>Tôi tên là:</span>
-          {renderInput('fullName')}
+          <input
+            type="text"
+            value={data.fullName || ''}
+            onChange={e => handleChange('fullName', e.target.value)}
+            className={errorFields.includes('fullName') ? 'error' : ''}
+            disabled={readOnly}
+          />
         </div>
 
         <div className="text-body input-line">
           <span>Sinh ngày:</span>
-          {renderInput('dob', '', 'date')}
+          <input
+            type="date"
+            value={data.dob || ''}
+            onChange={e => handleChange('dob', e.target.value)}
+            className={errorFields.includes('dob') ? 'error' : ''}
+            disabled={readOnly}
+          />
         </div>
 
         <div className="text-body input-line">
           <span>Chỗ ở hiện nay:</span>
-          {renderInput('address', 'long')}
+          <input
+            type="text"
+            className={`long ${errorFields.includes('address') ? 'error' : ''}`}
+            value={data.address || ''}
+            onChange={e => handleChange('address', e.target.value)}
+            disabled={readOnly}
+          />
         </div>
 
         <div className="text-body input-line">
           <span>Số điện thoại liên hệ:</span>
-          {renderInput('phone')}
+          <input
+            type="text"
+            value={data.phone || ''}
+            onChange={e => handleChange('phone', e.target.value)}
+            className={errorFields.includes('phone') ? 'error' : ''}
+            disabled={readOnly}
+          />
         </div>
 
         <div className="text-body">
           Thông qua trang website của công ty, tôi biết được Quý công ty có nhu cầu tuyển dụng vị trí&nbsp;
-          {renderInput('position')}.
-          Tôi cảm thấy trình độ và kỹ năng của mình phù hợp với vị trí này. Tôi mong muốn được làm việc và cống hiến cho công ty.
+          <input
+            type="text"
+            value={data.position || ''}
+            onChange={e => handleChange('position', e.target.value)}
+            className={errorFields.includes('position') ? 'error' : ''}
+            disabled={readOnly}
+          />.
         </div>
 
         <div className="text-body input-line">
           <span>Tôi đã tốt nghiệp loại</span>
-          {renderInput('graduationType', 'input-small')}
+          <input
+            type="text"
+            className={`input-small ${errorFields.includes('graduationType') ? 'error' : ''}`}
+            value={data.graduationType || ''}
+            onChange={e => handleChange('graduationType', e.target.value)}
+            disabled={readOnly}
+          />
           <span>tại trường</span>
-          {renderInput('graduationSchool')}
+          <input
+            type="text"
+            value={data.graduationSchool || ''}
+            onChange={e => handleChange('graduationSchool', e.target.value)}
+            className={errorFields.includes('graduationSchool') ? 'error' : ''}
+            disabled={readOnly}
+          />
         </div>
 
         <div className="text-body input-line">
-          <span>Tôi đã từng tham gia thực tập tại công ty <span style={{ color: '#888' }}>(Ghi không nếu chưa có)</span></span>
-          {renderInput('internCompany')}
+          <span>Tôi đã từng tham gia thực tập tại công ty</span>
+          <input
+            type="text"
+            value={data.internCompany || ''}
+            onChange={e => handleChange('internCompany', e.target.value)}
+            className={errorFields.includes('internCompany') ? 'error' : ''}
+            disabled={readOnly}
+          />
         </div>
 
         <div className="text-body input-line">
           <span>Trong quá trình học tập và làm việc tại đó tôi đã được trang bị kỹ năng như</span>
-          {renderInput('skills')}
+          <input
+            type="text"
+            value={data.skills || ''}
+            onChange={e => handleChange('skills', e.target.value)}
+            className={errorFields.includes('skills') ? 'error' : ''}
+            disabled={readOnly}
+          />
         </div>
 
         <div className="text-body">
-          Tôi thực sự mong muốn được làm việc trong môi trường chuyên nghiệp của Quý công ty. Tôi rất mong nhận được lịch hẹn phỏng vấn trong một ngày gần nhất.
+          Tôi thực sự mong muốn được làm việc trong môi trường chuyên nghiệp của Quý công ty.
         </div>
 
         <div className="text-body">Tôi xin chân thành cảm ơn!</div>
 
         <div className="sign-row">
           <div className="location-date">
-            {renderInput('location', 'address-input')}, ngày {currentDate.getDate()} tháng {currentDate.getMonth() + 1} năm {currentDate.getFullYear()}
+            <input
+              type="text"
+              className={`address-input ${errorFields.includes('location') ? 'error' : ''}`}
+              value={data.location || ''}
+              onChange={(e) => handleChange('location', e.target.value)}
+              disabled={readOnly}
+            />, ngày {currentDate.getDate()} tháng {currentDate.getMonth() + 1} năm {currentDate.getFullYear()}
           </div>
           <strong>Người viết đơn</strong>
           <i>(ký và ghi rõ họ tên)</i>
-          {!readOnly ? (
-            renderInput('signature', 'signature-input')
-          ) : (
-            <div className="signature-value">{data.signature}</div>
+          {!readOnly && (
+            <input
+              type="text"
+              className={`signature-input ${errorFields.includes('signature') ? 'error' : ''}`}
+              placeholder="Họ và tên"
+              value={data.signature || ''}
+              onChange={(e) => handleChange('signature', e.target.value)}
+            />
           )}
+          {readOnly && <div className="signature-value">{data.signature}</div>}
         </div>
       </div>
     </div>

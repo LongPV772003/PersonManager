@@ -1,0 +1,1867 @@
+{
+	"info": {
+		"_postman_id": "38630280-e1bf-4b05-8454-6a2b075100b7",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23976393"
+	},
+	"item": [
+		{
+			"name": "QLNV",
+			"item": [
+				{
+					"name": "Family",
+					"item": [
+						{
+							"name": "get by employeeId",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/employee-family?employeeId=105",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee-family"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "105"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n    {\r\n        \"name\": \"Alexander Hamerbell\",\r\n        \"gender\": 2,\r\n        \"dateOfBirth\": \"2022-09-09\",\r\n        \"relationShip\": 2,\r\n        \"citizenIdentificationNumber\": \"122242442\",\r\n        \"address\": \"Ha Noi City\",\r\n        \"email\": \"hung123@gmail.com\",\r\n        \"phoneNumber\": \"0123456789\"\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/employee-family/611",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee-family",
+										"611"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer d313f66b-1819-4b7d-a83d-9d0c26bb8fc1"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "\n [\n    {\n      \"name\": \"John\",\n      \"gender\": 2,\n      \"dateOfBirth\": \"1995-05-10\",\n      \"relationShip\": 1,\n      \"citizenIdentificationNumber\": \"01234567890\",\n      \"address\": \"123 Main St\",\n      \"employeeId\": 3 ,\n      \"email\": \"john@example.com\",\n      \"phoneNumber\": \"012345678910\"\n      \n    },\n    {\n      \"name\": \"Alex\",\n      \"gender\": 2,\n      \"dateOfBirth\": \"1995-05-10\",\n      \"relationShip\": 1,\n      \"citizenIdentificationNumber\": \"123456789\",\n      \"address\": \"123 Main St\",\n      \"employeeId\": 3 ,\n      \"email\": \"john@example.com\",\n      \"phoneNumber\": \"0123456789\"\n      \n    }\n  ]\n"
+								},
+								"url": {
+									"raw": "{{url}}/employee-family?employeeId=389",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee-family"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "389"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "{{url}}/employee-family/100",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee-family",
+										"100"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-by-id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/employee-family/600",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee-family",
+										"600"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Salary_increase",
+					"item": [
+						{
+							"name": "Create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"startDate\": \"2022-09-09\",\r\n        \"reason\": \"tôi muốn xin tăng lương\",\r\n        \"note\": \"xin cảm ơn đã xem yêu cầu của tôi\",\r\n        \"oldSalary\":3000000,\r\n        \"newSalary\":5000000\r\n    },\r\n    {\r\n        \"startDate\": \"2022-09-09\",\r\n        \"reason\": \"tôi muốn xin tăng lương\",\r\n        \"note\": \"xin cảm ơn đã xem yêu cầu của tôi\",\r\n        \"oldSalary\":30000000,\r\n        \"newSalary\":35000000,\r\n        \"leaderId\":1\r\n    }\r\n]\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/salary-increase?employeeId=360",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"salary-increase"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "360"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"startDate\": \"2022-08-09\",\r\n        \"reason\": \"tôi muốn đề nghị tăng lương\",\r\n        \"note\": \"hadhahda\",\r\n        \"oldSalary\": 3000000,\r\n        \"newSalary\": 20000000,\r\n        \"salaryIncreaseStatus\": 2,\r\n        \"acceptanceDate\": \"2022-08-09\",\r\n        \"additionalRequest\": \"Bo xung \",\r\n        \"reasonForRefusal\": \"ko nhan\",\r\n        \"rejectionDate\": \"2022-11-11\",\r\n        \"leaderId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/salary-increase/247",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"salary-increase",
+										"247"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by employee id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/salary-increase?employeeId=137",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"salary-increase"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "137"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url_v2}}/salary-increase/210",
+									"host": [
+										"{{url_v2}}"
+									],
+									"path": [
+										"salary-increase",
+										"210"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/salary-increase/15",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"salary-increase",
+										"15"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by curren leader",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/salary-increase/current-leader",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"salary-increase",
+										"current-leader"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Employee",
+					"item": [
+						{
+							"name": "UpdateEmployee",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"name\": \"Nguyen Van C\",\r\n        \"code\": \"131\",\r\n        \"gender\": 1,\r\n        \"dateOfBirth\": \"2022-10-10\",\r\n        \"address\": \"Bac Ninh\",\r\n        \"team\": 2,\r\n        \"email\": \"ABC@Duck.com\",\r\n        \"image\": \"/d\",\r\n        \"phone\": \"0131434097\",\r\n        \"citizenIdentificationNumber\": \"123654789\",\r\n        \"dateOfIssuanceCard\": \"2022-01-01\",\r\n        \"placeOfIssueCard\": \"Bac Ninh\",\r\n        \"ethnic\": \"Kinh\",\r\n        \"religion\": \"Không\",\r\n        \"submitDay\": \"2022-09-10\",\r\n        \"submitContent\": \"Tôi rất mong có thể trở thành 1 phần của cty , mong lãnh đạo phê duyệt\",\r\n        \"knowledge\": \"Đã từng học đại học và có nhiều chứng chỉ liên quan\",\r\n        \"activity\": \"đã từng tham gia hoạt động ABC\",\r\n        \"skill\": \"Đọc hiểu , code , giải quyết vấn đề\",\r\n        \"submitProfileStatus\": \"2\",\r\n        \"rejectionDate\": \"2022-10-10\",\r\n        \"reasonForRejection\": \"Bằng cấp của bạn chưa đạt để tham gia vào cty chúng tôi\",\r\n        \"additionalRequestTermination\": \"Yêu cầu bổ xung thêm những lý do thuyết phục hơn\",\r\n        \"terminationAppointmentDate\": \"2022-09-10\",\r\n        \"refuseEndProfileDay\": \"2022-10-10\",\r\n        \"reasonForRefuseEndProfile\": \"Tôi muốn bạn ở lại với chúng tôi\",\r\n        \"endDay\": \"2022-10-10\",\r\n        \"reasonForEnding\": \"Tôi cảm thấy ở đây không phù hợp với mình\",\r\n        \"numberSaved\": \"ABC-XT-123\",\r\n        \"decisionDay\": \"2023-01-10\",\r\n        \"leaderId\": 1\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/employee/404",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee",
+										"404"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "CreateEmployee",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "file",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"name\": \"Nguyen Van A\",\r\n        \"code\": \"131\",\r\n        \"gender\": 1,\r\n        \"dateOfBirth\": \"2022-09-09\",\r\n        \"address\": \"Bac Ninh\",\r\n        \"team\": 2,\r\n        \"email\": \"ABC@Duck.com\",\r\n        \"image\": \"/d\",\r\n        \"phone\": \"0131434097\",\r\n        \"citizenIdentificationNumber\": \"123654789\",\r\n        \"employeeFamilyDtos\": [\r\n            {\r\n                \"name\":\"Nguyen Van B\",\r\n                \"gender\":1,\r\n                \"dateOfBirth\":\"2022-09-09\",\r\n                \"relationShip\":2,\r\n                \"citizenIdentificationNumber\":\"123456789\",\r\n                \"address\": \"Bac Ninh\",\r\n                \"email\": \"hung@gmail.com\",\r\n                \"phoneNumber\": \"0123456789\"\r\n            },\r\n            {\r\n                \"name\":\"Nguyen Van C\",\r\n                \"gender\":1,\r\n                \"dateOfBirth\":\"2022-09-09\",\r\n                \"relationShip\":2,\r\n                \"citizenIdentificationNumber\":\"123456789\",\r\n                 \"address\": \"Bac Ninh\",\r\n                \"email\": \"hung123@gmail.com\",\r\n                \"phoneNumber\": \"0123456789\"\r\n            }\r\n        ],\r\n        \"certificatesDto\": [\r\n            {\r\n                \"certificateName\":\"Toeic 900\",\r\n                \"issueDate\":\"2022-09-09\",\r\n                \"content\":\"no thing\",\r\n                \"field\":\"cntt\"\r\n            },\r\n            {\r\n                \"certificateName\":\"Toeic 901\",\r\n                \"issueDate\":\"2022-09-09\",\r\n                \"content\":\"no thing\",\r\n                \"field\":\"cntt\"\r\n            },\r\n            {\r\n                \"certificateName\":\"Toeic 902\",\r\n                \"issueDate\":\"2022-09-09\",\r\n                \"content\":\"no thing\",\r\n                \"field\":\"cntt\"\r\n            }\r\n        ],\r\n        \"ethnic\": \"Kinh\",\r\n        \"religion\": \"Không\",\r\n        \"dateOfIssuanceCard\": \"2022-09-09\",\r\n        \"placeOfIssueCard\": \"Bac Ninh\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/employee",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/employee/382",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee",
+										"382"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Search",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{url}}/employee/search?pageIndex=1&pageSize=20&keyword=hu&listStatus=3,4,1,2",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee",
+										"search"
+									],
+									"query": [
+										{
+											"key": "pageIndex",
+											"value": "1"
+										},
+										{
+											"key": "pageSize",
+											"value": "20"
+										},
+										{
+											"key": "keyword",
+											"value": "hu"
+										},
+										{
+											"key": "listStatus",
+											"value": "3,4,1,2"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/employee/391",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee",
+										"391"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "upload image",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "file",
+											"type": "file",
+											"src": "/D:/image/5fd91ffb-7859-4e52-bfb2-9076ecff956c.png"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/employee/upload-image",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee",
+										"upload-image"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get image",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/public/image/01803797-b10d-48d6-824a-94b76f7470f1.png",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"public",
+										"image",
+										"01803797-b10d-48d6-824a-94b76f7470f1.png"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get happening By Status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "f22eab6a-5a70-4f44-8389-ed61b87cdb74",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer ceaefb79-2c13-40ac-a264-5c5aec5c99af"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/employee/happening?listStatus=5",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"employee",
+										"happening"
+									],
+									"query": [
+										{
+											"key": "listStatus",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Certificate",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"certificateName\":\"Toeic 900\",\r\n        \"issueDate\":\"2022-09-09\",\r\n        \"content\": \"Bằng toeic 900 được cấp tại trung tâm A\",\r\n        \"field\":\"Good\"\r\n    },\r\n    {\r\n        \"certificateName\":\"Iles 6.5\",\r\n        \"issueDate\":\"2022-09-09\",\r\n        \"content\":\"Oke\",\r\n        \"field\":\"Good\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/certificate?employeeId=391",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"certificate"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "391"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n            \"certificateName\": \"BẰNG ĐH\",\r\n            \"issueDate\": \"2022-09-09\",\r\n            \"content\": \"Được cấp bởi Trường Đại học công nghiệp Hà Nội\",\r\n            \"field\": \"good\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/certificate/797",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"certificate",
+										"797"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/certificate/55",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"certificate",
+										"55"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-by-employee",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/certificate?employeeId=391",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"certificate"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "391"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-by-id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/certificate/797",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"certificate",
+										"797"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Process",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n            \"promotionDay\": \"2022-09-09\",\r\n            \"newPosition\": 2,\r\n            \"leaderId\":1,\r\n            \"note\": \"Tôi cần lên chức\"\r\n    },\r\n    {\r\n            \"promotionDay\": \"2022-09-09\",\r\n            \"newPosition\": 2,\r\n            \"leaderId\":1,\r\n            \"note\": \"Rất mong được lãnh đạo phê duyệt\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/process?employeeId=360",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"process"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "360"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n        {\r\n            \"promotionDay\": \"2022-09-09\",\r\n            \"processStatus\":5,\r\n            \"newPosition\": 4,\r\n            \"note\": \"chưa đủ thuyết phục , cần cố gắng nhiều hơn\",\r\n            \"acceptanceDate\": \"2022-09-09\",\r\n            \"additionalRequest\": \"none\",\r\n            \"reasonForRefusal\": \"không phù hợp\",\r\n            \"rejectionDate\": \"2022-09-09\",\r\n            \"leaderId\":1\r\n        }\r\n    ",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/process/133",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"process",
+										"133"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by EmployeeId",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/process?employeeId=360",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"process"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "360"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/process/15",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"process",
+										"15"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/process/15",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"process",
+										"15"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by curren leader",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/process/current-leader",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"process",
+										"current-leader"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Proposal",
+					"item": [
+						{
+							"name": "get-by-id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/proposal/16",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"proposal",
+										"16"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"proposalDate\": 1662656400000,\r\n        \"content\": \"hello\",\r\n        \"note\": \"khong cho len\",\r\n        \"type\": 1,\r\n        \"detailedDescription\": \"adadada\",\r\n        \"proposalStatus\": 2,\r\n        \"leaderId\": 1\r\n    },\r\n    {\r\n        \"proposalDate\": 1662656400000,\r\n        \"content\": \"hello\",\r\n        \"note\": \"Bạn không thích hợp để tăng\",\r\n        \"type\": 2,\r\n        \"detailedDescription\": \"adadada\",\r\n        \"proposalStatus\": 2,\r\n        \"leaderId\": 16\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/proposal?employeeId=360",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"proposal"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "360"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"proposalDate\": 1662656400000,\r\n        \"content\": \"hello\",\r\n        \"note\": \"khong cho lenkhongn\",\r\n        \"type\": 2,\r\n        \"detailedDescription\": \"adadada\",\r\n        \"proposalStatus\": 5,\r\n        \"acceptanceDate\": \"2022-09-09\",\r\n        \"additionalRequest\": \"thiếu giấy khám SK\",\r\n        \"reasonForRefusal\": \"không phù hợp\",\r\n        \"rejectionDate\": \"2022-09-10\",\r\n        \"leaderId\": 1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/proposal/92",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"proposal",
+										"92"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/proposal/105",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"proposal",
+										"105"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by employee id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/proposal?employeeId=105",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"proposal"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "105"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by curren leader",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/proposal/current-leader",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"proposal",
+										"current-leader"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "RegistedDocument",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"registerDate\": \"2022-09-08\",\r\n        \"typesOfRecords\": \"Đơn xin nghỉ ngày 31-2\",\r\n        \"content\": \"Do hôm đó tận thế nên tôi xin phép nghỉ 1 ngày\",\r\n        \"note\": \"Cho hay không vẫn nghỉ\",\r\n        \"leaderId\": 2\r\n\r\n    },\r\n    {\r\n            \"registerDate\": \"2022-09-10\",\r\n            \"typesOfRecords\": \"hêlelelle\",\r\n            \"content\": \"hello\",\r\n            \"note\": \"Hello tôi không adadada\",\r\n            \"leaderId\": 2\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/document-registered?employeeId=360",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"document-registered"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "360"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"registerDate\": \"1969-02-22\",\r\n        \"typesOfRecords\": \"Đơn xin nghỉ ngày 31-2\",\r\n        \"content\": \"Do hôm đó tận thế nên tôi xin phép nghỉ 1 ngày\",\r\n        \"note\": \"Cho hay không vẫn nghỉ\",\r\n        \"acceptanceDate\": \"2022-09-09\",\r\n        \"additionalRequest\": \"thêm đơn nghỉ việc\",\r\n        \"reasonForRefusal\": \"không phù hợp\",\r\n        \"rejectionDate\": \"2022-10-20\",\r\n        \"documentStatus\": 5,\r\n        \"leaderId\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/document-registered/49",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"document-registered",
+										"49"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/document-registered/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"document-registered",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-by-id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url_v2}}/document-registered/47",
+									"host": [
+										"{{url_v2}}"
+									],
+									"path": [
+										"document-registered",
+										"47"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by employee id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/document-registered?employeeId=105",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"document-registered"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "105"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by curren leader",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/document-registered/current-leader",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"document-registered",
+										"current-leader"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Experience",
+					"item": [
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"companyName\": \"ABC Company\",\r\n        \"startDate\": \"2022-09-09\",\r\n        \"endDate\": \"2022-10-10\",\r\n        \"jobDescription\": \"Java Backend\",\r\n        \"leavingReason\": \"Công việc không phù hợp\",\r\n        \"companyAddress\": \"Thanh Xuấn - Nguyễn Trãi\"\r\n    },\r\n    {\r\n        \"companyName\": \"BCD Company\",\r\n        \"startDate\": \"2023-01-09\",\r\n        \"endDate\": \"2023-10-10\",\r\n        \"jobDescription\": \"Java Backend\",\r\n        \"leavingReason\": \"Công việc không phù hợp\",\r\n        \"companyAddress\": \"Thanh Xuấn - Nguyễn Trãi\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/experience?employeeId=408",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"experience"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "408"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"companyName\": \"Company ACD\",\r\n        \"startDate\": \"2022-10-10\",\r\n        \"endDate\": \"2023-09-09\",\r\n        \"jobDescription\": \"Java Backend\",\r\n        \"leavingReason\": \"Muốn thay đổi môi trường mối\",\r\n        \"companyAddress\": \"Tầng 4 - H10 - Thanh Xuân\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/experience/128",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"experience",
+										"128"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-by-id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/experience/128",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"experience",
+										"128"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get by employee id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/experience?employeeId=158",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"experience"
+									],
+									"query": [
+										{
+											"key": "employeeId",
+											"value": "158"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/experience/16",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"experience",
+										"16"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Leader",
+					"item": [
+						{
+							"name": "get all",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "75d0651c-583a-4d49-a7ce-b3eeb246fa30",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://em-v2.oceantech.com.vn/em/leader",
+									"protocol": "https",
+									"host": [
+										"em-v2",
+										"oceantech",
+										"com",
+										"vn"
+									],
+									"path": [
+										"em",
+										"leader"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get-by-id",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/leader/1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"leader",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "create",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n    {\r\n        \"leaderName\": \"hungggg\",\r\n            \"leaderPosition\": 3,\r\n            \"userId\": 7\r\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/leader",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"leader"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"leaderName\": \"Nguyen Van B\",\r\n    \"leaderPosition\": 3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/leader/36",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"leader",
+										"36"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "http://localhost:8085/em/oauth/token",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic Y29yZV9jbGllbnQ6c2VjcmV0"
+							},
+							{
+								"key": "X-Api-Key",
+								"value": "<API Key>"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "client_id",
+									"value": "core_client",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "secret",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "core_client",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/oauth/token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
