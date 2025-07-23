@@ -18,6 +18,7 @@ const SubmitToLeaderDialog = ({ open, onClose, onSubmit }) => {
 
   const dispatch = useDispatch();
   const leaders = useSelector(state => state.leader.list);
+  console.log(leaders)
   useEffect(() => {
     if (open) {
       dispatch(fetchLeaders());

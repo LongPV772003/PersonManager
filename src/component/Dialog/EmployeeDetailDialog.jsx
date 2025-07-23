@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Dialog, DialogTitle, DialogContent, DialogActions,
   Button, Typography, Box, List, ListItem, ListItemText, Divider,
@@ -21,15 +21,25 @@ import { useDispatch } from 'react-redux';
 import { updateEmployee } from '../../store/employeeSlice';
 
 const EmployeeDetailDialog = ({ open, onClose, employee, onview = false }) => {
-  const [selectedTab, setSelectedTab] = useState('info');
+  const initialTab = employee?.status === 'Chờ duyệt kết thúc' ? 'resignationForm' : 'info';
+  const [selectedTab, setSelectedTab] = useState(initialTab);
+  useEffect(() => {
+  if (employee?.status === 'Chờ duyệt kết thúc') {
+    setSelectedTab('resignationForm');
+  } else {
+    setSelectedTab('info');
+  }
+}, [employee?.status]);
   const user = JSON.parse(localStorage.getItem('user'))
   const navigate = useNavigate();
-  const tabOptions = [
-    { id: 'info', label: 'Thông tin nhân viên' },
-    { id: 'profile', label: 'Sơ yếu lý lịch' },
-    { id: 'application', label: 'Đơn đăng ký' },
-    { id: 'leaderComment', label: 'Ý kiến của lãnh đạo' }
-  ];
+  const tabOptions = employee?.status === 'Chờ duyệt kết thúc'
+    ? [{ id: 'resignationForm', label: 'Đơn xin nghỉ việc' }]
+    : [
+        { id: 'info', label: 'Thông tin nhân viên' },
+        { id: 'profile', label: 'Sơ yếu lý lịch' },
+        { id: 'application', label: 'Đơn đăng ký' },
+        { id: 'leaderComment', label: 'Ý kiến của lãnh đạo' }
+      ];
   const iconMap = {
     info: <InfoIcon sx={{ mr: 1 }} />,
     profile: <AccountBoxIcon sx={{ mr: 1 }} />,
@@ -61,7 +71,7 @@ const EmployeeDetailDialog = ({ open, onClose, employee, onview = false }) => {
         ...(newStatus === 'Từ chối' && {
           rejectReason,
           rejectDate
-        })
+        }),
       };
 
       await dispatch(updateEmployee(payload)).unwrap();
@@ -74,6 +84,9 @@ const EmployeeDetailDialog = ({ open, onClose, employee, onview = false }) => {
       } else if (newStatus === 'Yêu cầu bổ sung' || newStatus === 'Từ chối') {
         navigate('/employees');
       }
+      
+      if (newStatus === 'Kết thúc') 
+        navigate('/endedEmployees');
 
     } catch (err) {
       toast.error('Cập nhật thất bại');
@@ -83,7 +96,7 @@ const EmployeeDetailDialog = ({ open, onClose, employee, onview = false }) => {
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
-      <DialogTitle>Chi tiết hồ sơ nhân viên</DialogTitle>
+      {employee?.status === "Chờ duyệt kết thúc" ? <DialogTitle>Biểu mẫu chờ duyệt</DialogTitle> : <DialogTitle>Chi tiết hồ sơ nhân viên</DialogTitle>}
       <DialogContent sx={{ display: 'flex', minHeight: 400 }}>
         <Box
           sx={{
@@ -126,22 +139,81 @@ const EmployeeDetailDialog = ({ open, onClose, employee, onview = false }) => {
           </List>
         </Box>
         <Box flex={1} px={3} py={2} sx={{ overflowY: 'auto' }}>
-          {renderContent(selectedTab, employee)}
+          {selectedTab === 'resignationForm'
+            ? (
+                <Box sx={{ px: 2, fontFamily: '"Times New Roman", serif' }}>
+                <Typography align="center" fontWeight="bold" sx={{ fontSize: 16 }}>
+                  CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                </Typography>
+                <Typography align="center" sx={{ fontSize: 14 }}>
+                  Độc lập – Tự do – Hạnh phúc
+                </Typography>
+                <Typography align="center" mt={1} fontWeight="bold" sx={{ fontSize: 16 }}>
+                  ĐƠN XIN NGHỈ VIỆC
+                </Typography>
+
+                <Box mt={4} sx={{ fontSize: 14, lineHeight: 2 }}>
+                  <Typography><b>Kính gửi:</b> Ban giám đốc Công ty {employee?.resignationForm?.company}</Typography>
+                  <Typography><b>Tôi tên là:</b> {employee?.resignationForm?.name}</Typography>
+                  <Typography><b>Hiện đang công tác tại:</b> {employee?.resignationForm?.position}</Typography>
+
+                  <Typography mt={2}>
+                    Tôi làm đơn này đề nghị Ban Giám đốc Công ty cho tôi xin nghỉ việc vì lý do: {employee?.resignationForm?.reason}
+                  </Typography>
+
+
+                  <Typography mt={2} >
+                    Trong khi chờ đợi sự chấp thuận của Ban Giám đốc Công ty, tôi sẽ tiếp tục làm việc nghiêm túc
+                    và tiến hành bàn giao công việc cũng như tài sản lại cho người quản lý trực tiếp của tôi là ông/bà: <strong>{employee?.resignationForm?.manager}</strong>
+                  </Typography>
+
+                </Box>
+
+                <Box mt={4} sx={{ fontSize: 14 }}>
+                  <Typography>Tôi xin chân thành cảm ơn!</Typography>
+
+                  <Box display="flex" justifyContent="flex-end" alignItems="center" mt={3}>
+                    <Typography>
+                      {employee?.resignationForm?.location}, ngày {employee?.resignationForm?.day} tháng {employee?.resignationForm?.month} năm {employee?.resignationForm?.year}
+                    </Typography>
+                  </Box>
+
+                  <Box display="flex" justifyContent="flex-end" mt={2}>
+                    <Box textAlign="center">
+                      <Typography fontWeight="bold">Người làm đơn</Typography>
+                      <Typography mt={1} sx={{ textAlign: 'center' }}>
+                        {employee?.resignationForm?.signer}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+              )
+            : renderContent(selectedTab, employee)
+          }
         </Box>
       </DialogContent>
       <Divider />
-      {(user.role === "leader" && !onview) ? 
+     {user.role === "leader" && employee?.status === 'Chờ duyệt kết thúc' ? (
         <DialogActions sx={{ px: 3 }}>
-          <Button onClick={onClose} >Hủy</Button>
-          <Button variant="outlined" color="warning" onClick={() => setRequestOpen(true)}>Yêu cầu bổ sung</Button>
-          <Button variant="outlined" color="error" onClick={() => setRejectOpen(true)}>Từ chối</Button>
-          <Button variant="contained" color="success" onClick={() => setApproveOpen(true)}>Phê duyệt</Button>
+          <Button onClick={onClose}>Hủy</Button>
+          <Button variant="outlined" color="error" onClick={() => handleUpdateStatus('Đã duyệt')}>Từ chối</Button>
+          <Button variant="contained" color="success" onClick={() => handleUpdateStatus('Kết thúc')}>Phê duyệt</Button>
         </DialogActions>
-        : 
-        <DialogActions sx={{ px: 3 }}>
-          <Button onClick={onClose} sx={{border: 1, borderRadius: 1, px: 2, py: 1}}>Đóng</Button>
-        </DialogActions>
-      }
+      ) : (
+        (user.role === "leader" && !onview) ? (
+          <DialogActions sx={{ px: 3 }}>
+            <Button onClick={onClose}>Hủy</Button>
+            <Button variant="outlined" color="warning" onClick={() => setRequestOpen(true)}>Yêu cầu bổ sung</Button>
+            <Button variant="outlined" color="error" onClick={() => setRejectOpen(true)}>Từ chối</Button>
+            <Button variant="contained" color="success" onClick={() => setApproveOpen(true)}>Phê duyệt</Button>
+          </DialogActions>
+        ) : (
+          <DialogActions sx={{ px: 3 }}>
+            <Button onClick={onClose} sx={{ border: 1, borderRadius: 1, px: 2, py: 1 }}>Đóng</Button>
+          </DialogActions>
+        )
+      )}
 
       <Dialog open={approveOpen} onClose={() => setApproveOpen(false)}>
         <DialogTitle>Phê duyệt hồ sơ</DialogTitle>

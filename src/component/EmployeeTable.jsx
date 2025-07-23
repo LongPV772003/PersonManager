@@ -7,6 +7,7 @@ import { Edit, Delete, Visibility } from '@mui/icons-material';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { deleteEmployee } from '../store/employeeSlice';
+import PaginationTableWrapper from './Panigation/PaginationTableWrapper';
 
 const EmployeeTable = ({ onEdit, onView, employees, onSuccess }) => {
   const user = JSON.parse(localStorage.getItem('user'))
@@ -29,18 +30,19 @@ const handleDelete = async (id) => {
     switch (status) {
       case 'Lưu mới':
         return 'info';
+      case 'Chờ duyệt kết thúc':
       case 'Từ chối':
         return 'error';
       case 'Yêu cầu bổ sung':
         return 'warning';
+      case 'Chờ duyệt tăng lương':
+      case 'Chờ duyệt thăng chức':
+      case 'Chờ duyệt đề xuất/tham mưu':
       case 'Chờ xử lý':
       case 'Chờ duyệt':
         return 'secondary';
       case 'Đã duyệt':
         return 'success';
-      case 'Đã nộp lưu':
-      case 'Kết thúc':
-        return '#1976d2'
       default:
         return 'default';
     }
@@ -65,87 +67,77 @@ const handleDelete = async (id) => {
   };
 
   return (
-   <TableContainer component={Paper} sx={{ mt: 2, borderRadius: 2, boxShadow: 3 }}>
-    <Table>
-      <TableHead sx={{ bgcolor: '#66cc66' }}>
-        <TableRow>
-          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Tên</strong></TableCell>
-          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Giới tính</strong></TableCell>
-          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Team</strong></TableCell>
-          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Email</strong></TableCell>
-          <TableCell sx={{ whiteSpace: 'nowrap' }}><strong>Trạng thái</strong></TableCell>
-          <TableCell sx={{ whiteSpace: 'nowrap' }} align="right"><strong>Thao tác</strong></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {employees.map((emp) => (
-          <TableRow key={emp.id} hover>
-            <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 160 }}>{emp.name}</TableCell>
-            <TableCell sx={{ whiteSpace: 'nowrap' }}>{emp.gender}</TableCell>
-            <TableCell sx={{ whiteSpace: 'nowrap' }}>{emp.team}</TableCell>
-            <TableCell sx={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 200 }}>{emp.email}</TableCell>
-            <TableCell sx={{ whiteSpace: 'normal' }}>
-              <Box>
-                <Chip
-                  label={emp.status}
-                  color={getStatusColor(emp.status)}
-                  sx={{
-                    ...getCustomStyle(emp.status),
-                    maxWidth: 200
-                  }}
-                  variant="outlined"
-                  size="small"
-                />
-                {(emp.status === 'Từ chối' && emp.rejectReason) && (
-                  <Box mt={0.5} sx={{ fontSize: '0.75rem', color: 'red' }}>
-                    {emp.rejectReason}
+  <PaginationTableWrapper
+    data={employees}
+    rowsPerPage={4}
+    renderTable={(pagedEmployees) => (
+      <TableContainer component={Paper} sx={{ mt: 2, borderRadius: 2, boxShadow: 3 }}>
+        <Table>
+          <TableHead sx={{ bgcolor: '#66cc66' }}>
+            <TableRow>
+              <TableCell><strong>Tên</strong></TableCell>
+              <TableCell><strong>Giới tính</strong></TableCell>
+              <TableCell><strong>Team</strong></TableCell>
+              <TableCell><strong>Email</strong></TableCell>
+              <TableCell><strong>Trạng thái</strong></TableCell>
+              <TableCell align="right"><strong>Thao tác</strong></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {pagedEmployees.map((emp) => (
+              <TableRow key={emp.id} hover>
+                <TableCell>{emp.name}</TableCell>
+                <TableCell>{emp.gender}</TableCell>
+                <TableCell>{emp.team}</TableCell>
+                <TableCell>{emp.email}</TableCell>
+                <TableCell>
+                  <Box>
+                    <Chip
+                      label={emp.status}
+                      color={getStatusColor(emp.status)}
+                      sx={{ ...getCustomStyle(emp.status) }}
+                      size="small"
+                    />
+                    {/* lý do từ chối hoặc bổ sung */}
+                    {(emp.status === 'Từ chối' && emp.rejectReason) && (
+                      <Box mt={0.5} sx={{ fontSize: '0.75rem', color: 'red' }}>{emp.rejectReason}</Box>
+                    )}
+                    {(emp.status === 'Yêu cầu bổ sung' && emp.requirementContent) && (
+                      <Box mt={0.5} sx={{ fontSize: '0.75rem', color: '#ed6c02' }}>{emp.requirementContent}</Box>
+                    )}
                   </Box>
-                )}
-                {(emp.status === 'Yêu cầu bổ sung' && emp.requirementContent) && (
-                  <Box mt={0.5} sx={{ fontSize: '0.75rem', color: '#ed6c02' }}>
-                    {emp.requirementContent}
-                  </Box>
-                )}
-              </Box>
-            </TableCell>
-            <TableCell align="right" sx={{ whiteSpace: 'nowrap' }}>
-              <Stack direction="row" spacing={1} justifyContent="flex-end">
-                {user.role === "manager" &&
-                  ['Lưu mới', 'Yêu cầu bổ sung', 'Từ chối'].includes(emp.status) && (
-                    <Tooltip title="Chỉnh sửa">
-                      <IconButton color="info" onClick={() => onEdit(emp)}>
-                        <Edit />
+                </TableCell>
+                <TableCell align="right">
+                  <Stack direction="row" spacing={1} justifyContent="flex-end">
+                    {user.role === "manager" &&
+                      ['Lưu mới', 'Yêu cầu bổ sung', 'Từ chối'].includes(emp.status) && (
+                        <Tooltip title="Chỉnh sửa">
+                          <IconButton color="info" onClick={() => onEdit(emp)}>
+                            <Edit />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                    <Tooltip title="Xem">
+                      <IconButton onClick={() => onView(emp)}>
+                        <Visibility />
                       </IconButton>
                     </Tooltip>
-                  )}
-                {user.role === "leader" || ['Kết thúc', 'Đã nộp lưu', 'Chờ xử lý', 'Chờ duyệt', 'Đã duyệt', 'Chờ nộp hồ sơ', 'Từ chối'].includes(emp.status) && (
-                  <Tooltip title="Xem">
-                    <IconButton onClick={() => onView(emp)}>
-                      <Visibility />
-                    </IconButton>
-                  </Tooltip>
-                )}
-                 {user.role === "leader" && (
-                  <Tooltip title="Xem">
-                    <IconButton onClick={() => onView(emp)}>
-                      <Visibility />
-                    </IconButton>
-                  </Tooltip>
-                )}
-                {user.role === "manager" && emp.status === 'Lưu mới' && (
-                  <Tooltip title="Xóa">
-                    <IconButton color="error" onClick={() => handleDelete(emp.id)}>
-                      <Delete />
-                    </IconButton>
-                  </Tooltip>
-                )}
-              </Stack>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
+                    {user.role === "manager" && emp.status === 'Lưu mới' && (
+                      <Tooltip title="Xóa">
+                        <IconButton color="error" onClick={() => handleDelete(emp.id)}>
+                          <Delete />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                  </Stack>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    )}
+  />
 )};
 
 export default EmployeeTable;

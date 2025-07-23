@@ -299,10 +299,10 @@
         }
       },
       "leaderComment": {
-        "leaderId": "u001",
-        "name": "Phạm Văn Long",
-        "content": "HIHIHaaa",
-        "date": "2025-07-22T10:05:17.789Z"
+        "leaderId": "u003",
+        "name": "Phạm Hoàng Long",
+        "content": "Không có gì",
+        "date": "2025-07-22T12:29:18.376Z"
       }
     },
     {
@@ -320,7 +320,7 @@
       "createdBy": "u004",
       "degrees": [],
       "families": [],
-      "status": "Đã duyệt",
+      "status": "Chờ duyệt kết thúc",
       "profileRecords": {
         "name": "Phạm Nhất Long",
         "gender": "Nam",
@@ -378,8 +378,8 @@
       },
       "rejectReason": "Thêm thông tin",
       "rejectDate": "2025-07-14",
-      "appointmentDate": "2025-07-24",
-      "isQualified": true,
+      "appointmentDate": "",
+      "isQualified": false,
       "registerProfile": [
         {
           "submittedFiles": [
@@ -449,6 +449,20 @@
         "name": "Phạm Văn Long",
         "content": "HIUHU",
         "date": "2025-07-22T09:56:48.066Z"
+      },
+      "endDate": "2025-07-22",
+      "endReason": "Nghỉ việc",
+      "resignationForm": {
+        "company": "OceanTech",
+        "name": "Phạm Nhất Long",
+        "position": "Phòng quản lý đào tạo",
+        "reason": "Muốn chuyển sang công ty khác làm",
+        "manager": "Phạm Nhất Long",
+        "day": "22",
+        "month": "7",
+        "year": "2025",
+        "location": "Hà Nội",
+        "signer": "Phạm Nhất Long"
       }
     },
     {
@@ -475,7 +489,7 @@
           "address": "Hoa Lư"
         }
       ],
-      "status": "Lưu mới",
+      "status": "Chờ xử lý",
       "profileRecords": {
         "name": "Phạm Hoàng Long",
         "gender": "Nam",
@@ -519,7 +533,27 @@
           }
         ]
       },
-      "applicationRecords": {}
+      "applicationRecords": {
+        "company": "OceanTech",
+        "fullName": "Hoàng Long",
+        "dob": "2025-05-27",
+        "address": "Thái Bình",
+        "phone": "0325974646",
+        "position": "intern reactjs",
+        "graduationType": "Giỏi",
+        "graduationSchool": "ĐH Bách Khoa HN",
+        "internCompany": "Vide Technology",
+        "skills": "nodejs",
+        "location": "Hà Nội",
+        "signature": "Hoàng Long"
+      },
+      "leaderSubmission": {
+        "date": "2025-07-22",
+        "leader": "Phạm Hoàng Long",
+        "leaderId": "u003",
+        "position": "Trưởng phòng",
+        "content": "Phê duyệt nhân viên"
+      }
     },
     {
       "id": "6360",
@@ -695,7 +729,7 @@
           "address": "99 Định Công"
         }
       ],
-      "status": "Chờ xử lý",
+      "status": "Đã duyệt",
       "createdBy": "u004",
       "profileRecords": {
         "families": [
@@ -753,12 +787,25 @@
         "signature": "bbbb"
       },
       "leaderSubmission": {
-        "date": "2025-07-15",
-        "leader": "Phạm Hoàng Long",
-        "leaderId": "u003",
-        "position": "Trưởng phòng",
-        "content": "hhhhh"
-      }
+        "date": "2025-07-22",
+        "leader": "Phạm Văn Long",
+        "leaderId": "u001",
+        "position": "Giám đốc",
+        "content": "Duyệt nhân viên"
+      },
+      "requirementContent": "Bổ sung thêm đầy đủ giấy tờ liên quan",
+      "appointmentDate": "2025-07-23",
+      "isQualified": true,
+      "salaryProgress": [
+        {
+          "submittedFiles": [],
+          "date": "2025-07-22",
+          "times": "1",
+          "reason": "Mới vào làm",
+          "level": "1",
+          "note": "Tăng lần 1"
+        }
+      ]
     },
     {
       "id": "53f0",
@@ -1006,6 +1053,30 @@
       ],
       "endDate": "2025-07-18",
       "endReason": "Nghỉ việc"
+    },
+    {
+      "id": "640e",
+      "name": "Trần Văn A",
+      "code": "NV0078",
+      "gender": "Nam",
+      "dob": "2003-06-07",
+      "address": "96 Định Công",
+      "team": "Nhân sự",
+      "image": "",
+      "cccd": "034203013331",
+      "phone": "0123456782",
+      "email": "Axemply@gmail.com",
+      "degrees": [
+        {
+          "name": "Văn bằng CNTT",
+          "date": "2025-04-22",
+          "content": "Văn bằng CNTT",
+          "field": "CNTT"
+        }
+      ],
+      "families": [],
+      "status": "Lưu mới",
+      "createdBy": "u004"
     }
   ]
 }

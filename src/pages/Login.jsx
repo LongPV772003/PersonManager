@@ -6,7 +6,7 @@ import {
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { login } from '../store/leaderSlice';
+import { login } from '../store/authSlice';
 
 const Login = () => {
   const [username, setUsername] = useState('');

@@ -12,7 +12,8 @@ import {
 } from '../store/employeeSlice';
 
 import {
-  Container, Button, Dialog, DialogTitle, DialogContent
+  Container, Button, Dialog, DialogTitle, DialogContent,
+  Box
 } from '@mui/material';
 
 import EmployeeTable from '../component/EmployeeTable';
@@ -79,8 +80,8 @@ const EmployeePage = () => {
   };
 
   return (
-    <Container>
-      <h2>Danh sách nhân viên</h2>
+    <Box px={2}>
+      <h2 style={{margin: '0', marginBottom: '10px'}}>Danh sách nhân viên</h2>
 
       {user.role !== 'leader' && (
         <Button variant="contained" onClick={handleAdd}>Thêm mới</Button>
@@ -125,7 +126,7 @@ const EmployeePage = () => {
         onSubmit={handleSubmitRegister}
         employeeData={employeeData}
       />
-    </Container>
+    </Box>
   );
 };
 

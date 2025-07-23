@@ -82,13 +82,17 @@ export const fetchApprovedEmployees = createAsyncThunk(
 
 export const closeEmployeeRecord = createAsyncThunk(
   'employee/closeRecord',
-  async ({ employee, endDate, endReason }) => {
+  async ({ employee, quitApplycation }) => {
+    const { endDate, endReason, resignationForm } = quitApplycation;
+
     const payload = {
       ...employee,
-      status: 'Kết thúc',
+      status: 'Chờ duyệt kết thúc',
       endDate,
-      endReason
+      endReason,
+      resignationForm
     };
+
     await axios.put(`http://localhost:3001/employees/${employee.id}`, payload);
     return payload;
   }
@@ -143,7 +147,7 @@ export const fetchPendingEmployees = createAsyncThunk(
     try {
       const user = JSON.parse(localStorage.getItem('user'));
       const res = await axios.get('http://localhost:3001/employees');
-      const allPending = res.data.filter(emp => emp.status === 'Chờ xử lý');
+      const allPending = res.data.filter(emp => emp.status === 'Chờ xử lý' || emp.status === 'Chờ duyệt kết thúc' || emp.status === 'Chờ duyệt tăng lương' || emp.status === 'Chờ duyệt thăng chức' || emp.status === 'Chờ duyệt đề xuất/tham mưu');
 
       if (user.role === 'manager') {
         return allPending.filter(emp => emp.createdBy === user.id);

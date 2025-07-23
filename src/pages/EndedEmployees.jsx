@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchEndedEmployees, archiveEmployeeRecord, setSelectedEmployee } from '../store/employeeSlice';
 import EmployeeDetailDialog from '../component/Dialog/EmployeeDetailDialog';
 import { toast } from 'react-toastify';
+import PaginationTableWrapper from '../component/Panigation/PaginationTableWrapper';
 
 const EndedEmployees = () => {
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ const EndedEmployees = () => {
   };
 
   return (
-    <Box p={4}>
+    <Box px={2} py={1}>
       <Stack direction="row" alignItems="center" spacing={1} mb={2}>
         <CancelOutlined color="error" />
         <Typography variant="h5" fontWeight={600}>
@@ -89,48 +90,52 @@ const EndedEmployees = () => {
           Không có hồ sơ kết thúc.
         </Typography>
       ) : (
-        <Paper elevation={3} sx={{ p: 2, borderRadius: 2 }}>
-          <TableContainer>
-            <Table>
-              <TableHead sx={{ backgroundColor: '#ff9999' }}>
-                <TableRow>
-                  {['Họ tên', 'Phòng ban', 'Ngày kết thúc', 'Lý do', 'Trạng thái', 'Ngày QĐ', 'Số lưu', 'Hành động'].map((h, i) => (
-                    <TableCell key={i} align="center" sx={{ fontWeight: 'bold' }}>{h}</TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {employees.map(emp => (
-                  <TableRow key={emp.id} hover>
-                    <TableCell align="center">{emp.name}</TableCell>
-                    <TableCell align="center">{emp.team}</TableCell>
-                    <TableCell align="center">{formatDate(emp.endDate)}</TableCell>
-                    <TableCell align="center">{emp.endReason || '—'}</TableCell>
-                    <TableCell align="center" sx={{ color: emp.status === 'Đã nộp lưu' ? 'green' : '#B10202' }}>
-                      {emp.status}
-                    </TableCell>
-                    <TableCell align="center">{formatDate(emp.decisionDate)}</TableCell>
-                    <TableCell align="center">{emp.archiveNumber || '—'}</TableCell>
-                    <TableCell align="center" sx={{ display: 'flex', justifyContent: 'center' }}>
-                      <Tooltip title="Xem chi tiết">
-                        <IconButton color="primary" onClick={() => handleView(emp)}>
-                          <Visibility />
-                        </IconButton>
-                      </Tooltip>
-                      {emp.status === 'Kết thúc' && (
-                        <Tooltip title="Nộp lưu hồ sơ">
-                          <IconButton color="secondary" onClick={() => handleOpenArchiveDialog(emp)}>
-                            <Archive />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
+          <PaginationTableWrapper
+            data={employees}
+            rowsPerPage={4}
+            renderTable={(visibleEmployees) => (
+              <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 3 }}>
+                <Table>
+                  <TableHead sx={{ backgroundColor: '#ff9999' }}>
+                    <TableRow>
+                      {['Họ tên', 'Phòng ban', 'Ngày kết thúc', 'Lý do', 'Trạng thái', 'Ngày QĐ', 'Số lưu', 'Hành động'].map((h, i) => (
+                        <TableCell key={i} align="center" sx={{ fontWeight: 'bold' }}>{h}</TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {visibleEmployees.map(emp => (
+                      <TableRow key={emp.id} hover>
+                        <TableCell align="center">{emp.name}</TableCell>
+                        <TableCell align="center">{emp.team}</TableCell>
+                        <TableCell align="center">{formatDate(emp.endDate)}</TableCell>
+                        <TableCell align="center">{emp.endReason || '—'}</TableCell>
+                        <TableCell align="center" sx={{ color: emp.status === 'Đã nộp lưu' ? 'green' : '#B10202' }}>
+                          {emp.status}
+                        </TableCell>
+                        <TableCell align="center">{formatDate(emp.decisionDate)}</TableCell>
+                        <TableCell align="center">{emp.archiveNumber || '—'}</TableCell>
+                        <TableCell align="center" sx={{ display: 'flex', justifyContent: 'center' }}>
+                          <Tooltip title="Xem chi tiết">
+                            <IconButton color="primary" onClick={() => handleView(emp)}>
+                              <Visibility />
+                            </IconButton>
+                          </Tooltip>
+                          {emp.status === 'Kết thúc' && (
+                            <Tooltip title="Nộp lưu hồ sơ">
+                              <IconButton color="secondary" onClick={() => handleOpenArchiveDialog(emp)}>
+                                <Archive />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          />
       )}
 
       <EmployeeDetailDialog

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Box, Typography, Paper, Table, TableBody,
   TableCell, TableContainer, TableHead, TableRow,
@@ -15,6 +15,8 @@ import { toast } from 'react-toastify';
 import UpdateProcessDialog from '../component/Dialog/UpdateProcessDialog';
 import { useSelector, useDispatch } from 'react-redux';
 import { addLeaderComment, closeEmployeeRecord, fetchApprovedEmployees  } from '../store/employeeSlice';
+import PaginationTableWrapper from '../component/Panigation/PaginationTableWrapper';
+import EndEmployeeDialog from '../component/Dialog/EndEmployeeDialog';
 
 const EmployeeManager = () => {
   const user = JSON.parse(localStorage.getItem('user'))
@@ -24,6 +26,7 @@ const EmployeeManager = () => {
   const [commentDialogOpen, setCommentDialogOpen] = useState(false);
   const [currentEmployeeId, setCurrentEmployeeId] = useState(null);
   const [leaderComment, setLeaderComment] = useState("");
+  const endDialogRef = useRef();
     
   const dispatch = useDispatch();
   const { list: employees, loading } = useSelector(state => state.employee);
@@ -43,25 +46,19 @@ const EmployeeManager = () => {
       .catch(() => toast.error('Lỗi khi thêm ý kiến'));
   };
   const [endDialogOpen, setEndDialogOpen] = useState(false);
-  const [endReason, setEndReason] = useState('');
-  const [endDate, setEndDate] = useState('');
   const handleCloseRecord = (employee) => {
     setSelectedEmployee(employee);
-    setEndDate('');
-    setEndReason('');
     setEndDialogOpen(true);
   };
-   const submitCloseRecord = () => {
-    if (!endDate || !endReason) return toast.error('Vui lòng nhập đầy đủ');
+   const submitCloseRecord = (data) => {
     dispatch(closeEmployeeRecord({
       employee: selectedEmployee,
-      endDate,
-      endReason
+      quitApplycation: data
     }))
       .then(() => {
         toast.success('Đã kết thúc hồ sơ');
         setEndDialogOpen(false);
-        window.location.href = '/endedEmployees';
+        window.location.href = '/penddingApproval';
       })
       .catch(() => toast.error('Lỗi khi kết thúc hồ sơ'));
   };
@@ -95,7 +92,7 @@ const EmployeeManager = () => {
 
 
   return (
-    <Box p={4}>
+    <Box px={2} py={1}>
       <Stack direction="row" alignItems="center" spacing={1} mb={2}>
         <TaskAltIcon color="primary" />
         <Typography variant="h5" fontWeight={600}>
@@ -112,65 +109,66 @@ const EmployeeManager = () => {
             Không có nhân viên nào đã được duyệt.
           </Typography>
         ) : (
-          <TableContainer sx={{ borderRadius: 2, boxShadow: 3 }}>
-            <Table>
-              <TableHead sx={{ backgroundColor: '#66cc66' }}>
-                <TableRow>
-                  {[
-                    'Họ tên', 'Giới tính', 'Ngày sinh', 'Email', 'SĐT', 'Ngày hẹn', 'Hành động'
-                  ].map((head, index) => (
-                    <TableCell key={index} align="center" sx={{ fontWeight: 'bold' }}>
-                      {head}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {employees.map((emp) => (
-                  <TableRow key={emp.id} hover sx={{ '&:hover': { backgroundColor: '#f1f8e9' } }}>
-                    <TableCell align="center">{emp.name}</TableCell>
-                    <TableCell align="center">{emp.gender}</TableCell>
-                    <TableCell align="center">{formatDate(emp.dob)}</TableCell>
-                    <TableCell align="center">{emp.email}</TableCell>
-                    <TableCell align="center">{emp.phone}</TableCell>
-                    <TableCell align="center">{formatDate(emp.appointmentDate)}</TableCell>
-                    <TableCell align="center" sx={{ minWidth: 160 }}>
-                        {user.role === "manager" ? 
-                        <Box display="flex" justifyContent="center" gap={1}>
+          <PaginationTableWrapper
+            data={employees}
+            rowsPerPage={4}
+            renderTable={(visibleEmployees) => (
+              <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 3 }}>
+                <Table>
+                  <TableHead sx={{ backgroundColor: '#13ece1ff' }}>
+                    <TableRow>
+                      {['Họ tên', 'Giới tính', 'Ngày sinh', 'Email', 'SĐT', 'Ngày hẹn', 'Hành động'].map((head, index) => (
+                        <TableCell key={index} align="center" sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>
+                          {head}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {visibleEmployees.map((emp) => (
+                      <TableRow key={emp.id} hover sx={{ '&:hover': { backgroundColor: '#f1f8e9' } }}>
+                        <TableCell align="center">{emp.name}</TableCell>
+                        <TableCell align="center">{emp.gender}</TableCell>
+                        <TableCell align="center">{formatDate(emp.dob)}</TableCell>
+                        <TableCell align="center">{emp.email}</TableCell>
+                        <TableCell align="center">{emp.phone}</TableCell>
+                        <TableCell align="center">{formatDate(emp.appointmentDate)}</TableCell>
+                        <TableCell align="center">
+                          <Box display="flex" justifyContent="center" gap={1}>
                             <Tooltip title="Xem chi tiết">
-                            <IconButton color="primary" onClick={() => handleView(emp)}>
+                              <IconButton color="primary" onClick={() => handleView(emp)}>
                                 <Visibility />
-                            </IconButton>
+                              </IconButton>
                             </Tooltip>
-                            <Tooltip title="Cập nhật diễn biến">
-                            <IconButton color="warning" onClick={() => handleUpdateProgress(emp)}>
-                                <Edit />
-                            </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Kết thúc hồ sơ">
-                            <IconButton color="error" onClick={() => handleCloseRecord(emp)}>
-                                <CancelOutlined />
-                            </IconButton>
-                            </Tooltip>
-                        </Box> : <Box display="flex" justifyContent="center" gap={1}>
-                            <Tooltip title="Xem chi tiết">
-                            <IconButton color="primary" onClick={() => handleView(emp)}>
-                                <Visibility />
-                            </IconButton>
-                            </Tooltip>
-                            <Tooltip title="Ý kiến lãnh đạo">
+                            {user.role === 'manager' ? (
+                              <>
+                                <Tooltip title="Cập nhật diễn biến">
+                                  <IconButton color="warning" onClick={() => handleUpdateProgress(emp)}>
+                                    <Edit />
+                                  </IconButton>
+                                </Tooltip>
+                                <Tooltip title="Kết thúc hồ sơ">
+                                  <IconButton color="error" onClick={() => handleCloseRecord(emp)}>
+                                    <CancelOutlined />
+                                  </IconButton>
+                                </Tooltip>
+                              </>
+                            ) : (
+                              <Tooltip title="Ý kiến lãnh đạo">
                                 <IconButton color="secondary" onClick={() => handleLeaderComment(emp.id)}>
-                                <Feedback />
+                                  <Feedback />
                                 </IconButton>
-                            </Tooltip>
-                        </Box>
-                        }
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                              </Tooltip>
+                            )}
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          />
         )}
     <EmployeeDetailDialog
         open={dialogOpen}
@@ -196,33 +194,15 @@ const EmployeeManager = () => {
             </Box>
         </DialogContent>
     </Dialog>
-    <Dialog open={endDialogOpen} onClose={() => setEndDialogOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>Kết thúc hồ sơ</DialogTitle>
-        <DialogContent>
-            <TextField
-            label="Ngày kết thúc"
-            type="date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            fullWidth
-            InputLabelProps={{ shrink: true }}
-            margin="normal"
-            />
-            <TextField
-            label="Lý do kết thúc"
-            value={endReason}
-            onChange={(e) => setEndReason(e.target.value)}
-            fullWidth
-            multiline
-            rows={3}
-            margin="normal"
-            />
-            <Box display="flex" justifyContent="flex-end" gap={1} mt={2}>
-            <Button onClick={() => setEndDialogOpen(false)}>Hủy</Button>
-            <Button variant="contained" color="error" onClick={submitCloseRecord}>Xác nhận</Button>
-            </Box>
-        </DialogContent>
-    </Dialog>
+    <EndEmployeeDialog
+      open={endDialogOpen}
+      onClose={() => setEndDialogOpen(false)}
+      onSubmit={(data) => {
+        submitCloseRecord(data)
+      }}
+      ref={endDialogRef}
+      data={selectedEmployee}
+    />
     <UpdateProcessDialog
       open={progressDialogOpen}
       data={selectedProgressEmployee}
